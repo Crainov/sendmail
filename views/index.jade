@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        title Mailgun Transactional demo in NodeJS
+        script(type="text/javascript" src="//cdn.tinymce.com/4/tinymce.min.js")
+    body
+        p Welcome to a Mailgun form
+        form(id="mgform" method="post" action="/submit")
+            label(for="mail") Email
+            input(type="text" id="mail" placeholder="Youremail@address.com" name="email")
+            button(value="bulk" onclick="mgform.hid=this.value") Send transactional
+            button(value="list" onclick="mgform.hid=this.value") Add to list
+            button(value="inv" onclick="mgform.hid=this.value") Send invoice
+            input(type="submit" value="submit")
+            textarea#text(name='message')
+              | Here text
+        script(type="text/javascript" src="main.js")
