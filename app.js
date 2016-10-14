@@ -20,7 +20,6 @@ var auth = function(req, res, next) {
 };
 
 app.use(express.static(path.resolve(__dirname, 'static')));
-
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
