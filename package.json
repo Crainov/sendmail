@@ -1,0 +1,41 @@
+{
+  "name": "sendman",
+  "version": "0.0.1",
+  "description": "Signgle page app for sending email",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "mailgun-js": "^0.7.12",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^2.8.1",
+    "react-tap-event-plugin": "^1.0.0",
+    "react-tinymce": "^0.5.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "css-loader": "^0.25.0",
+    "node-sass": "^3.10.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/crainov/sendman.git"
+  },
+  "author": "Max Paseniuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/crainov/sendman/issues"
+  },
+  "homepage": "https://gitlab.com/crainov/sendman#README"
+}

@@ -1,0 +1,15 @@
+body {
+  background-color: #e1f5fe;
+}
+
+th {
+  width: 45%;
+  &:last-child {
+    width: 10%;
+  }
+}
+
+th,
+.nav {
+  font-weight: normal;
+}
