@@ -9,9 +9,9 @@ var MailForm = React.createClass({
   handleEditorChange: function(e) {
     this.setState({message: e.target.getContent()});
   },
-  // inputHandler: function(e) {
-  //   this.setState({email: e.target.defaultValue});
-  // },
+  inputHandler: function(e) {
+    this.setState({email: e.target.value});
+  },
   submitHandler: function(e) {
     e.preventDefault();
     var email = this.state.email.trim();
@@ -33,7 +33,7 @@ var MailForm = React.createClass({
             <div className="card teal lighten-5">
               <div className="row">
                 <div className="input-field col s12">
-                  <input type="email" name="email" defaultValue="bot@kanboard.projtest.info" disabled/>
+                  <input type="email" name="email" value={this.state.email || ''} onChange={this.inputHandler}/>
                 </div>
               </div>
               <div className="row">
@@ -54,6 +54,7 @@ var MailForm = React.createClass({
                     Submit
                     <i className="material-icons right">send</i>
                   </button>
+                  <a className="btn" onClick="Materialize.toast('I am a toast', 4000)">Toast</a>
                 </div>
               </div>
             </div>

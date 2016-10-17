@@ -10,6 +10,7 @@ module.exports = React.createClass({
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><Link to="/">Write message</Link></li>
             <li><Link to="/recipients">Subscr List</Link></li>
+            <li><a href="/logout">Logout</a></li>
           </ul>
         </div>
       </nav>

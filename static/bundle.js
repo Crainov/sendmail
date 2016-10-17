@@ -27424,6 +27424,15 @@
 	              { to: "/recipients" },
 	              "Subscr List"
 	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { href: "/logout" },
+	              "Logout"
+	            )
 	          )
 	        )
 	      )
@@ -27503,9 +27512,9 @@
 	  handleEditorChange: function handleEditorChange(e) {
 	    this.setState({ message: e.target.getContent() });
 	  },
-	  // inputHandler: function(e) {
-	  //   this.setState({email: e.target.defaultValue});
-	  // },
+	  inputHandler: function inputHandler(e) {
+	    this.setState({ email: e.target.value });
+	  },
 	  submitHandler: function submitHandler(e) {
 	    e.preventDefault();
 	    var email = this.state.email.trim();
@@ -27538,7 +27547,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'input-field col s12' },
-	                _react2.default.createElement('input', { type: 'email', name: 'email', defaultValue: 'bot@kanboard.projtest.info', disabled: true })
+	                _react2.default.createElement('input', { type: 'email', name: 'email', value: this.state.email || '', onChange: this.inputHandler })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -27572,6 +27581,11 @@
 	                    { className: 'material-icons right' },
 	                    'send'
 	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'a',
+	                  { className: 'btn', onClick: 'Materialize.toast(\'I am a toast\', 4000)' },
+	                  'Toast'
 	                )
 	              )
 	            )
