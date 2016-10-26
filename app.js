@@ -66,18 +66,27 @@ app.post('/delete', function(req, res){
 });
 
 app.post('/addusr', function(req, res) {
-  console.log(req.body.email);
   var user = {
       subscribed: true,
-      address: req.body.email,
-      name: req.body.name,
-      vars: {}};
+      address: req.body.user.email,
+      name: req.body.user.name,
+      vars: req.body.user.vars};
   console.log(req.body);
   list.members().create(user, function (err, data) {
     // `data` is the member details
     console.log(err);
     console.log(data);
-    res.json(data);
+    res.json(err || data);
+  });
+});
+
+app.post('/updusr', function(req, res) {
+  console.log(req.body);
+  var user = req.body.user.address;
+  var vars = req.body.user.vars;
+  list.members(user).update({vars: vars}, function (err, body) {
+    console.log(body);
+    res.json(body);
   });
 });
 

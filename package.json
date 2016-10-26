@@ -9,6 +9,7 @@
     "express-session": "^1.14.1",
     "mailgun-js": "^0.7.12",
     "react": "^15.3.2",
+    "react-addons-linked-state-mixin": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1",
     "react-tap-event-plugin": "^1.0.0",

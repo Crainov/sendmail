@@ -3,8 +3,8 @@ body {
 }
 
 th {
-  width: 45%;
-  &:last-child {
+  width: 26.66%;
+  &.actions {
     width: 10%;
   }
 }
@@ -12,4 +12,16 @@ th {
 th,
 .nav {
   font-weight: normal;
+}
+
+.absolute-action-btn {
+  position: relative;
+}
+
+.absolute-action-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }

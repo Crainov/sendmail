@@ -16,7 +16,6 @@ var MailForm = React.createClass({
     e.preventDefault();
     var email = this.state.email.trim();
     var message = this.state.message.trim();
-    alert(message);
     if (!email || !message) {
       alert("Enter message");
       return;

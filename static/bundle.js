@@ -27138,6 +27138,30 @@
 
 	var Header = __webpack_require__(238);
 
+	var UserOptions = _react2.default.createClass({
+	  displayName: 'UserOptions',
+
+	  getInitialState: function getInitialState() {
+	    return { options: this.props.subscriber.vars };
+	  },
+	  inputHandler: function inputHandler(e) {
+	    // var options = this.state.options || {};
+	    // var name = e.target.name;
+	    // options[name] = e.target.value;
+	    // this.setState({options: options});
+	    this.props.subscriber.vars.company = e.target.value;
+	    console.log(this.props.subscriber.vars.company);
+	  },
+	  render: function render() {
+	    var options = this.state.options;
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'input-field' },
+	      _react2.default.createElement('input', { type: 'text', name: 'company', value: this.props.subscriber.vars.company, onChange: this.inputHandler })
+	    );
+	  }
+	});
+
 	var RecipientsList = _react2.default.createClass({
 	  displayName: 'RecipientsList',
 
@@ -27150,6 +27174,17 @@
 	        return;
 	      }
 	      self.props.delUser({ email: delUser });
+	    };
+	  },
+	  addOption: function addOption(updUser) {
+	    var self = this;
+	    return function (e) {
+	      e.preventDefault();
+	      if (!updUser) {
+	        alert("error del user");
+	        return;
+	      }
+	      self.props.updUser({ user: updUser });
 	    };
 	  },
 	  render: function render() {
@@ -27170,6 +27205,25 @@
 	          'td',
 	          null,
 	          subscriber.name
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          _react2.default.createElement(UserOptions, { subscriber: subscriber })
+	        ),
+	        _react2.default.createElement(
+	          'td',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { className: 'btn-floating waves-effect waves-light green darken-1',
+	              onClick: self.addOption(subscriber) },
+	            _react2.default.createElement(
+	              'i',
+	              { className: 'material-icons' },
+	              'system_update_alt'
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'td',
@@ -27211,7 +27265,17 @@
 	            ),
 	            _react2.default.createElement(
 	              'th',
-	              { 'data-field': 'delete' },
+	              { 'data-field': 'vars' },
+	              'Company'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              { className: 'actions', 'data-field': 'delete' },
+	              'Update'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              { className: 'actions', 'data-field': 'delete' },
 	              'Delete'
 	            )
 	          )
@@ -27230,23 +27294,27 @@
 	  displayName: 'AddUsrForm',
 
 	  getInitialState: function getInitialState() {
-	    return { nuser: [] };
+	    return { nuser: { vars: {} } };
 	  },
 	  inputHandler: function inputHandler(e) {
-	    var nuser = this.state.nuser || {};
 	    var name = e.target.name;
-	    nuser[name] = e.target.value;
-	    this.setState({ nuser: nuser });
+	    var nuser = this.state.nuser || {};
+	    if (name === "company") {
+	      nuser.vars[name] = e.target.value;
+	      this.setState({ nuser: nuser });
+	    } else {
+	      nuser[name] = e.target.value;
+	      this.setState({ nuser: nuser });
+	    }
 	    console.log(this.state.nuser);
 	  },
 	  addSubscr: function addSubscr() {
 	    var email = this.state.nuser.email;
-	    var name = this.state.nuser.name;
-	    if (!email || !name) {
-	      alert("Enter email or name!");
+	    if (!email) {
+	      alert("Enter email!");
 	      return;
 	    };
-	    this.props.email({ email: email, name: name });
+	    this.props.email({ user: this.state.nuser });
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -27257,7 +27325,7 @@
 	        { className: 'row' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'input-field col s6' },
+	          { className: 'input-field col s4' },
 	          _react2.default.createElement('input', { id: 'email', type: 'email', name: 'email', value: this.state.nuser.email || '', onChange: this.inputHandler }),
 	          _react2.default.createElement(
 	            'label',
@@ -27267,11 +27335,21 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'input-field col s6' },
+	          { className: 'input-field col s4' },
 	          _react2.default.createElement('input', { id: 'name', type: 'text', name: 'name', value: this.state.nuser.name || '', onChange: this.inputHandler }),
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'name' },
+	            'Name'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'input-field col s4' },
+	          _react2.default.createElement('input', { id: 'company', type: 'text', name: 'company', value: this.state.nuser.vars.company || '', onChange: this.inputHandler }),
+	          _react2.default.createElement(
+	            'label',
+	            { htmlFor: 'company' },
 	            'Name'
 	          )
 	        )
@@ -27346,6 +27424,23 @@
 	      }.bind(this)
 	    });
 	  },
+	  updateUsr: function updateUsr(data) {
+	    var url = "/updusr";
+	    var self = this;
+	    $.ajax({
+	      url: url,
+	      dataType: 'json',
+	      type: "POST",
+	      data: data,
+	      success: function (data) {
+	        self.getEmailList();
+	        console.log("Update!!", data);
+	      }.bind(this),
+	      error: function (xhr, status, err) {
+	        console.error(url, status, err.toString());
+	      }.bind(this)
+	    });
+	  },
 	  getInitialState: function getInitialState() {
 	    return { data: [] };
 	  },
@@ -27368,7 +27463,7 @@
 	            { className: 'card white grey-text text-darken-3' },
 	            _react2.default.createElement(AddUsrForm, { email: this.addSubscriber })
 	          ),
-	          _react2.default.createElement(RecipientsList, { data: this.state.data, delUser: this.removefromList })
+	          _react2.default.createElement(RecipientsList, { data: this.state.data, delUser: this.removefromList, updUser: this.updateUsr })
 	        )
 	      )
 	    );
@@ -27510,7 +27605,6 @@
 	    e.preventDefault();
 	    var email = this.state.email.trim();
 	    var message = this.state.message.trim();
-	    alert(message);
 	    if (!email || !message) {
 	      alert("Enter message");
 	      return;
@@ -29517,7 +29611,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: #e1f5fe; }\n\nth {\n  width: 45%; }\n  th:last-child {\n    width: 10%; }\n\nth,\n.nav {\n  font-weight: normal; }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: #e1f5fe; }\n\nth {\n  width: 26.66%; }\n  th.actions {\n    width: 10%; }\n\nth,\n.nav {\n  font-weight: normal; }\n\n.absolute-action-btn {\n  position: relative; }\n\n.absolute-action-btn {\n  position: absolute;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  margin: auto; }\n", ""]);
 
 	// exports
 
