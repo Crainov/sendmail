@@ -15,8 +15,10 @@ app.use(session({
 var auth = function(req, res, next) {
   if (req.session && req.session.user === "ira" && req.session.admin)
     return next();
-  else
-    return res.sendStatus(401);
+  else {
+    // return res.sendStatus(401);
+    return res.sendFile(path.resolve(__dirname, 'login.html'));
+  }
 };
 
 app.use(express.static(path.resolve(__dirname, 'static')));
@@ -30,17 +32,6 @@ var domain = 'kanboard.projtest.info';
 var mailgun = new Mailgun({apiKey: api_key, domain: domain});
 var list = mailgun.lists('bot@kanboard.projtest.info');
 
-
-app.get('/login', function (req, res) {
-  if (!req.query.username || !req.query.password) {
-    res.send('login failed');
-  } else if(req.query.username === "ira" || req.query.password === "ira") {
-    req.session.user = "ira";
-    req.session.admin = true;
-    res.send("login success!");
-  }
-});
-
 app.get('/maillist', function(req, res){
   list.members().list(function (err, members) {
     return res.json(members);
@@ -50,11 +41,21 @@ app.get('/maillist', function(req, res){
 // Logout endpoint
 app.get('/logout', function (req, res) {
   req.session.destroy();
-  res.send("logout success!");
+  res.redirect('/');
 });
 
 app.get('*', auth, function (req, res) {
   return res.sendFile(path.resolve(__dirname, 'index.html'));
+});
+
+app.post('/login', function (req, res) {
+  if (!req.body.username || !req.body.password) {
+    res.send('login failed');
+  } else if(req.body.username === "ira" || req.body.password === "ira") {
+    req.session.user = "ira";
+    req.session.admin = true;
+    return res.redirect('/');
+  }
 });
 
 app.post('/delete', function(req, res){

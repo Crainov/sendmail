@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Express HTML</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper light-blue darken-4">
+        <a href="/" class="brand-logo">Mail Sender</a>
+      </div>
+    </nav>
+    <form action="/login" method="post">
+      <div class="row">
+        <div class="col s6 offset-s3">
+          <div class="card white grey-text text-darken-3">
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="username" type="text" name="username"/>
+                <label for="username">Name</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="pass" type="password" name="password"/>
+                <label for="pass">Password</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <button type="submit" class="waves-effect waves-light btn">Login</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+  </body>
+</html>
