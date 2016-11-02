@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 import { Link } from 'react-router';
 
@@ -9,19 +9,22 @@ var UserOptions = React.createClass({
   getInitialState: function() {
     return {options: this.props.subscriber.vars};
   },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({options: nextProps.subscriber.vars});
+    // console.log('will recieve', nextProps.subscriber.vars, this.state.options.company);
+  },
   inputHandler: function(e) {
-    // var options = this.state.options || {};
-    // var name = e.target.name;
-    // options[name] = e.target.value;
-    // this.setState({options: options});
-    this.props.subscriber.vars.company = e.target.value;
-    console.log(this.props.subscriber.vars.company);
+    var options = this.state.options || {};
+    var name = e.target.name;
+    options[name] = e.target.value;
+    this.setState({options: options});
+    // console.log(this.props.subscriber.vars.company);
   },
   render: function() {
     var options = this.state.options;
     return (
       <div className="input-field">
-        <input type="text" name="company" value={this.props.subscriber.vars.company} onChange={this.inputHandler}></input>
+        <input type="text" name="company" value={options.company} onChange={this.inputHandler}></input>
       </div>
     );
   }
@@ -56,7 +59,7 @@ var RecipientsList = React.createClass({
     var self = this;
     var recipients = isData ? this.props.data.items : null;
     var recItems = isData ? recipients.map(function(subscriber, i) {
-      console.log(subscriber, i);
+      // console.log(subscriber, i);
       return (
         <tr key={i}>
           <td>
@@ -118,7 +121,7 @@ var AddUsrForm = React.createClass({
       nuser[name] = e.target.value;
       this.setState({nuser: nuser});
     }
-    console.log(this.state.nuser);
+    // console.log(this.state.nuser);
   },
   addSubscr: function() {
     var email = this.state.nuser.email;
@@ -127,6 +130,7 @@ var AddUsrForm = React.createClass({
       return;
     };
     this.props.email({user: this.state.nuser});
+    this.setState({nuser: {vars: {}}});
   },
   render: function() {
     return (
@@ -142,7 +146,7 @@ var AddUsrForm = React.createClass({
           </div>
           <div className="input-field col s4">
             <input id="company" type="text" name="company" value={this.state.nuser.vars.company || ''} onChange={this.inputHandler}/>
-            <label htmlFor="company">Name</label>
+            <label htmlFor="company">Company</label>
           </div>
         </div>
         <div className="row">
@@ -156,9 +160,13 @@ var AddUsrForm = React.createClass({
 });
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {data: [], preloader: true};
+  },
   removefromList: function(email) {
+    this.setState({preloader: true});
     var self = this;
-    console.log('del user!!', email);
+    // console.log('del user!!', email);
     var url = "/delete";
     $.ajax({
       url: url,
@@ -167,15 +175,18 @@ module.exports = React.createClass({
       data: email,
       success: function(data) {
         self.getEmailList();
-        console.log(data);
+        // console.log(data);
+        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.setState({preloader: false});
       }.bind(this)
     });
   },
   getEmailList: function() {
-    console.log('get list!!');
+    // console.log('get list!!');
+    this.setState({preloader: true});
     var url = "/maillist";
     $.ajax({
       url: url,
@@ -183,60 +194,82 @@ module.exports = React.createClass({
       cache: false,
       success: function(data) {
         this.setState({data: data});
+        this.setState({preloader: false});
+        this.addAlert('List downloaded sucessfull');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.setState({preloader: false});
       }.bind(this)
     });
   },
   addSubscriber: function(data) {
     var url = "/addusr";
-    var self = this;
+    this.setState({preloader: true});
     $.ajax({
       url: url,
       dataType: 'json',
       type: "POST",
       data: data,
       success: function(data) {
-        self.getEmailList();
-        console.log("ADDDD!!", data);
+        this.getEmailList();
+        // console.log("ADDDD!!", data);
+        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.setState({preloader: false});
       }.bind(this)
     });
   },
   updateUsr: function(data) {
+    this.setState({preloader: true});
     var url = "/updusr";
-    var self = this;
     $.ajax({
       url: url,
       dataType: 'json',
       type: "POST",
       data: data,
       success: function(data) {
-        self.getEmailList();
+        this.getEmailList();
         console.log("Update!!", data);
+        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.setState({preloader: false});
       }.bind(this)
     });
   },
-  getInitialState: function() {
-    return {data: []};
-  },
   componentDidMount: function() {
     this.getEmailList();
+  },
+  addAlert: function(text) {
   },
   render: function() {
     return(
       <div>
         <Header />
+        <div className={classNames("b-preloader", {active: this.state.preloader} )}>
+          <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
+              </div>
+              <div className="gap-patch">
+                <div className="circle"></div>
+              </div>
+              <div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="row">
           <div className="col s6 offset-s3">
             <div className="card white grey-text text-darken-3">
               <AddUsrForm email={this.addSubscriber}/>
+              <a href="#" onClick={this.addAlert}>asdfasdfasfasdfasdf</a>
             </div>
             <RecipientsList data={this.state.data} delUser={this.removefromList} updUser={this.updateUsr}/>
           </div>

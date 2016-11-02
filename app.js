@@ -13,7 +13,7 @@ app.use(session({
 }));
 
 var auth = function(req, res, next) {
-  if (req.session && req.session.user === "ira" && req.session.admin)
+  if (req.session && req.session.user === "user" && req.session.admin)
     return next();
   else {
     // return res.sendStatus(401);
@@ -51,8 +51,8 @@ app.get('*', auth, function (req, res) {
 app.post('/login', function (req, res) {
   if (!req.body.username || !req.body.password) {
     res.send('login failed');
-  } else if(req.body.username === "ira" || req.body.password === "ira") {
-    req.session.user = "ira";
+  } else if(req.body.username === "user" || req.body.password === "kAm5wbOxMy") {
+    req.session.user = "user";
     req.session.admin = true;
     return res.redirect('/');
   }

@@ -53,7 +53,7 @@ var MailForm = React.createClass({
                     Submit
                     <i className="material-icons right">send</i>
                   </button>
-                  <a className="btn" onClick="Materialize.toast('I am a toast', 4000)">Toast</a>
+                  {/* <a className="btn" onClick="Materialize.toast('I am a toast', 4000)">Toast</a> */}
                 </div>
               </div>
             </div>

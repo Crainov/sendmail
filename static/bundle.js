@@ -27153,11 +27153,12 @@
 	    console.log(this.props.subscriber.vars.company);
 	  },
 	  render: function render() {
+	    console.log(this.state.options, 'UserOptions', this.props.subscriber.vars.company);
 	    var options = this.state.options;
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'input-field' },
-	      _react2.default.createElement('input', { type: 'text', name: 'company', value: this.props.subscriber.vars.company, onChange: this.inputHandler })
+	      _react2.default.createElement('input', { type: 'text', name: 'company', defaultValue: this.props.subscriber.vars.company })
 	    );
 	  }
 	});
@@ -27350,7 +27351,7 @@
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'company' },
-	            'Name'
+	            'Company'
 	          )
 	        )
 	      ),
