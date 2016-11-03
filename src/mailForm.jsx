@@ -21,8 +21,7 @@ var MailForm = React.createClass({
       return;
     }
     this.props.messageSend({email: email, message: message});
-    this.setState({email: "", message: ""});
-    return false;
+    return true;
   },
   render: function() {
     return (
@@ -39,9 +38,14 @@ var MailForm = React.createClass({
                 <div className="col s12">
                   <TinyMCE
                     content="<p>This is the initial content of the editor</p>"
+
                     config={{
-                      plugins: 'link image code',
-                      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+                      forced_root_block: false,
+                      plugins: 'link image code template importcss fullpage',
+                      toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+                      templates: [
+                          {title: 'Some title 1', description: 'Some desc 1', url: 'http://localhost:8080/template.html'}
+                        ]
                     }}
                     onChange={this.handleEditorChange}
                   />
@@ -50,10 +54,9 @@ var MailForm = React.createClass({
               <div className="row">
                 <div className="col">
                   <button type="submit" className="btn waves-effect waves-light" name='action'>
-                    Submit
+                    Send
                     <i className="material-icons right">send</i>
                   </button>
-                  {/* <a className="btn" onClick="Materialize.toast('I am a toast', 4000)">Toast</a> */}
                 </div>
               </div>
             </div>

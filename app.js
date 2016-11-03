@@ -16,7 +16,6 @@ var auth = function(req, res, next) {
   if (req.session && req.session.user === "user" && req.session.admin)
     return next();
   else {
-    // return res.sendStatus(401);
     return res.sendFile(path.resolve(__dirname, 'login.html'));
   }
 };
@@ -45,7 +44,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('*', auth, function (req, res) {
-  return res.sendFile(path.resolve(__dirname, 'index.html'));
+    return res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 app.post('/login', function (req, res) {

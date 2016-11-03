@@ -176,10 +176,11 @@ module.exports = React.createClass({
       success: function(data) {
         self.getEmailList();
         // console.log(data);
-        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+      }.bind(this),
+      complete: function() {
         this.setState({preloader: false});
       }.bind(this)
     });
@@ -194,11 +195,12 @@ module.exports = React.createClass({
       cache: false,
       success: function(data) {
         this.setState({data: data});
-        this.setState({preloader: false});
         this.addAlert('List downloaded sucessfull');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+      }.bind(this),
+      complete: function() {
         this.setState({preloader: false});
       }.bind(this)
     });
@@ -214,10 +216,11 @@ module.exports = React.createClass({
       success: function(data) {
         this.getEmailList();
         // console.log("ADDDD!!", data);
-        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+      }.bind(this),
+      complete: function() {
         this.setState({preloader: false});
       }.bind(this)
     });
@@ -233,18 +236,21 @@ module.exports = React.createClass({
       success: function(data) {
         this.getEmailList();
         console.log("Update!!", data);
-        this.setState({preloader: false});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+      }.bind(this),
+      complete: function() {
         this.setState({preloader: false});
       }.bind(this)
     });
   },
   componentDidMount: function() {
     this.getEmailList();
+    console.log(Materialize);
   },
   addAlert: function(text) {
+
   },
   render: function() {
     return(

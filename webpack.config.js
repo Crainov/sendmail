@@ -35,6 +35,9 @@ module.exports = {
       new webpack.ProvidePlugin({
           $: "jquery",
           jQuery: "jquery"
+      }),
+      new webpack.ProvidePlugin({
+          Materialize: "materialize-css/dist/js/materialize.min.js"
       })
   ]
 };
