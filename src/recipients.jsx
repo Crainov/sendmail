@@ -3,7 +3,11 @@ import classNames from 'classnames';
 
 import { Link } from 'react-router';
 
+var Notify = require('./notify.jsx');
+
 var Header = require('./header.jsx');
+
+console.log(Materialize);
 
 var UserOptions = React.createClass({
   getInitialState: function() {
@@ -161,7 +165,7 @@ var AddUsrForm = React.createClass({
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return {data: [], preloader: true};
+    return {data: [], preloader: true, notify: {text: '', visible: false}};
   },
   removefromList: function(email) {
     this.setState({preloader: true});
@@ -176,9 +180,11 @@ module.exports = React.createClass({
       success: function(data) {
         self.getEmailList();
         // console.log(data);
+        this.addAlert(data.message);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.addAlert(err.toString());
       }.bind(this),
       complete: function() {
         this.setState({preloader: false});
@@ -195,10 +201,11 @@ module.exports = React.createClass({
       cache: false,
       success: function(data) {
         this.setState({data: data});
-        this.addAlert('List downloaded sucessfull');
+        // this.addAlert('List downloaded sucessfull');
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.addAlert(err.toString());
       }.bind(this),
       complete: function() {
         this.setState({preloader: false});
@@ -216,9 +223,11 @@ module.exports = React.createClass({
       success: function(data) {
         this.getEmailList();
         // console.log("ADDDD!!", data);
+        this.addAlert(data.message);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.addAlert(err.toString());
       }.bind(this),
       complete: function() {
         this.setState({preloader: false});
@@ -235,10 +244,12 @@ module.exports = React.createClass({
       data: data,
       success: function(data) {
         this.getEmailList();
-        console.log("Update!!", data);
+        // console.log("updateUsr", data);
+        this.addAlert(data.message);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(url, status, err.toString());
+        this.addAlert(err.toString());
       }.bind(this),
       complete: function() {
         this.setState({preloader: false});
@@ -247,14 +258,17 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     this.getEmailList();
-    console.log(Materialize);
   },
   addAlert: function(text) {
-
+    var notify = {};
+    notify.text = text;
+    notify.visible = true;
+    this.setState({notify: notify});
   },
   render: function() {
     return(
       <div>
+        <Notify notification_text={this.state.notify.text}/>
         <Header />
         <div className={classNames("b-preloader", {active: this.state.preloader} )}>
           <div className="preloader-wrapper big active">
@@ -275,7 +289,6 @@ module.exports = React.createClass({
           <div className="col s6 offset-s3">
             <div className="card white grey-text text-darken-3">
               <AddUsrForm email={this.addSubscriber}/>
-              <a href="#" onClick={this.addAlert}>asdfasdfasfasdfasdf</a>
             </div>
             <RecipientsList data={this.state.data} delUser={this.removefromList} updUser={this.updateUsr}/>
           </div>

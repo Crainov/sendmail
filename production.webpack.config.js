@@ -45,6 +45,16 @@ module.exports = {
       new webpack.ProvidePlugin({
           Materialize: "materialize-css/dist/js/materialize.min.js"
       }),
+      new webpack.DefinePlugin({
+        'process.env':{
+          'NODE_ENV': JSON.stringify('production')
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress:{
+          warnings: true
+        }
+      })
       // HTMLWebpackPluginConfig
   ]
 };

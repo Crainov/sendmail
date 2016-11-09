@@ -46,3 +46,17 @@ th,
     top: 50%;
   }
 }
+
+.notific-wrapper {
+  width: 200px;
+  border-radius: 6px;
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  background: #fff;
+  color: #4caf50;
+  font-size: 14px;
+  padding: 10px;
+  z-index: 20;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
